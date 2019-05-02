@@ -1,0 +1,1069 @@
+#!/bin/bash
+DATE=`date +%Y-%m-%d`
+read -r -p "Project Name: " ProjectName
+read -r -p "Your Full Name: " UserName
+read -r -p "Your Github UserName: " githubUser
+read -r -p "Your Github Password: " githubPassword
+read -r -p "Quick Description of Project: " Description
+Mkdir ${ProjectName}
+cd ${ProjectName}
+
+
+#Make Directories
+mkdir src
+mkdir src/components src/reducers src/scss
+mkdir _tests_
+mkdir _tests_/reducers
+touch README.md
+echo "
+# _${ProjectName}_
+
+#### ${Description}
+
+_Published_ **${DATE}**<br>
+_Author_ **${UserName}**
+
+1. [Description](#description)
+1. [Learning Objective](#learning-objective)
+1. [Target Audience/Users](#target-audience/users)
+1. [User Stories](#user-stories)
+1. [Product Requirements](#product-requirements)
+1. [Non-technical Requirements](#non-technical-requirements)
+1. [Assumptions](#assumptions)
+1. [Development Specs](#development-specs)
+1. [Installation](#installation)
+1. [Known Bugs](#known-bugs)
+1. [Technologies Used](#technologies-used)
+1. [License](#license)
+
+### Description
+
+
+### Learning Objective
+
+### Target Audience/Users
+
+
+### User Stories
+
+
+### Product Requirements
+
+
+### Non-technical Requirements
+
+
+### Assumptions
+
+
+### Development Specs
+
+
+### Installation
+* Clone from https://github.com/${githubUser}/${ProjectName}
+* Run `$ npm install`
+* Add API key to .env file in root directory as `exports.apiKey = {{ API KEY }}`
+
+### Known Bugs
+* None identified
+
+### Technologies Used
+* Bash scripts
+* React
+* Webpack
+* iMac
+* Atom
+
+### License
+Copyright (c) 2019 Nate Wessels, Epicodus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." >> README.md
+
+
+
+#Create Projects
+touch webpack.config.js
+touch template.ejs
+touch .gitignore
+touch .eslintrc.json
+touch .eslintignore
+touch .babelrc
+touch src/index.jsx
+touch src/components/Admin.jsx src/components/App.jsx src/components/ConfirmationQuestions.jsx src/components/Error404.jsx src/components/Header.jsx src/components/NewTicketControl.jsx src/components/NewTicketForm.jsx src/components/Ticket.jsx src/components/TicketDetail.jsx src/components/TicketList.jsx src/reducers/index.js src/reducers/selected-ticket-reducer.js src/reducers/ticket-list-reducer.js src/scss/backgrounds.scss src/scss/hovers.scss src/scss/styles.scss
+touch _tests_/reducers/index-reducer.test.js _test_/reducers/selected-ticket-reducer.test.js _tests_/reducers/ticket-list-reducer.test.js
+touch package.json
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Creat Project
+
+Echo "
+const webpack = require('webpack');
+const { resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+    resolve(__dirname, 'src', 'index.jsx')
+  ],
+
+  output: {
+    filename: 'app.bundle.js',
+    path: resolve(__dirname, 'build'),
+    publicPath: '/'
+  },
+
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+
+  devtool: '#source-map',
+
+  devServer: {
+    hot: true,
+    contentBase: resolve(__dirname, 'build'),
+    publicPath: '/'
+  },
+
+  module: {
+    loaders: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015', 'react']
+                }
+            }
+        ],
+    rules: [
+      {
+         test: /\.scss$/,
+         use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.(png|gif|jp(e*)g|svg)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 8000,
+            name: 'images/[hash]-[name].[ext]'
+          }
+        }
+      },
+      {
+        test: /\.jsx?$/,
+        enforce: 'pre',
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+        options: {
+          emitWarning: true,
+          configFile: './.eslintrc.json'
+          }
+        },
+        {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          presets: [
+            ['es2015', {'modules': false}],
+            'react',
+          ],
+          plugins: [
+            'react-hot-loader/babel',
+            'styled-jsx/babel'
+          ]
+        }
+      }
+    ]
+  },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      template:'template.ejs',
+      appMountId: 'react-app-root',
+      title: 'React Help Queue',
+      filename: resolve(__dirname, 'build', 'index.html'),
+    }),
+  ]
+};" >> webpack.config.js
+
+
+
+echo '<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title><%= htmlWebpackPlugin.options.title%></title>
+</head>
+  <body style="margin: 0; padding: 0">
+    <% if (htmlWebpackPlugin.options.appMountId) { %>
+      <div id="<%= htmlWebpackPlugin.options.appMountId%>"></div>
+    <% } %>
+  </body>
+</html>' >> template.ejs
+
+
+echo ".DS_STORE
+node_modules
+build
+package-lock.json" >> .gitignore
+
+
+
+
+echo '{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        }
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+    "react/jsx-uses-vars": 2,
+    "react/jsx-uses-react": 2,
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-undef": 2,
+    "react/no-multi-comp": 2,
+    "react/jsx-key": 2,
+    "react/jsx-indent-props": [
+        "error",
+        2
+      ],
+    "react/jsx-pascal-case": 2,
+    "react/prop-types": 2,
+    "no-case-declarations": 2,
+    "react/jsx-indent": [
+        "error",
+        2
+    ],
+    "indent": [
+        "error",
+        2
+    ],
+    "linebreak-style": [
+        "error",
+        "unix"
+    ],
+    "quotes": [
+        "error",
+        "single"
+    ],
+    "semi": [
+        "error",
+        "always"
+    ]
+}
+}' >> .eslintrc.json
+
+
+
+
+echo "**/*.scss" >> .eslintignore
+
+
+
+
+echo '{
+  "env": {
+    "development": {
+        "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "test": {
+        "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
+}' >> .babelrc
+
+
+
+
+
+
+
+echo "
+
+.bg-gry{
+  background-color: #eee;
+}
+.bg-grn{
+  background-color: #15DF12;
+}" >> src/scss/backgrounds.scss
+
+echo ".hover-shadow:hover{
+  box-shadow: 0px 0px 10px limegreen;
+}" >> src/scss/hovers.scss
+
+echo "@import 'backgrounds.scss';
+@import 'hovers.scss';
+
+.header{
+  width: 100%;
+  position: sticky;
+  top: 0;
+  margin: 0;
+  padding: 20px;
+}" >> src/scss/styles.scss
+
+
+
+
+
+echo "import React from 'react';
+import PropTypes from 'prop-types';
+import TicketList from './TicketList';
+import TicketDetail from './TicketDetail';
+import { connect } from 'react-redux';
+
+function Admin(props){
+  let optionalSelectedTicketContent = null;
+  if (props.selectedTicket > 0) {
+    optionalSelectedTicketContent = <TicketDetail selectedTicket={props.ticketList[props.selectedTicket]} />
+  }
+  return (
+    <div>
+      <h2>Admin</h2>
+      {optionalSelectedTicketContent}
+      <TicketList
+        ticketList={props.ticketList}
+        currentRouterPath={props.currentRouterPath}
+        onTicketSelection={props.onTicketSelection}/>
+    </div>
+  );
+}
+
+Admin.propTypes = {
+  ticketList: PropTypes.array,
+  currentRouterPath: PropTypes.string.isRequired,
+  onTicketSelection: PropTypes.func.isRequired,
+  selectedTicket: PropTypes.object
+};
+
+const mapStateToProps = state => {
+  return {
+    selectedTicket: state.selectedTicket,
+    ticketList: state.masterTicketList
+  };
+};
+
+
+export default connect(mapStateToProps)(Admin);" >> src/components/Admin.jsx
+
+echo "import React from 'react';
+import Header from './Header';
+import TicketList from './TicketList';
+import NewTicketControl from './NewTicketControl';
+import Error404 from './Error404';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import Moment from 'moment';
+import Admin from './Admin';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTicket: null
+    };
+    this.handleChangingSelectedTicket = this.handleChangingSelectedTicket.bind(this);
+  }
+
+  componentDidMount() {
+    this.waitTimeUpdateTimer = setInterval(() =>
+      this.updateTicketElapsedWaitTime(),
+    60000
+    );
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.waitTimeUpdateTimer);
+  }
+
+  updateTicketElapsedWaitTime() {
+    const { dispatch } = this.props;
+    Object.keys(this.props.masterTicketList).map(ticketId => {
+      const ticket = this.props.masterTicketList[ticketId];
+      const newFormattedWaitTime = ticket.timeOpen.fromNow(true);
+      const action = {
+        type: 'UPDATE_TIME',
+        id: ticketId,
+        formattedWaitTime: newFormattedWaitTime
+      };
+      dispatch(action);
+    });
+  }
+
+  handleChangingSelectedTicket(ticketId){
+    this.setState({selectedTicket: ticketId});
+  }
+
+  render(){
+  return (
+    <div>
+      <Header/>
+      <Switch>
+        <Route exact path='/' render={()=><TicketList ticketList={this.props.masterTicketList} />} />
+        <Route path='/newticket' render={()=><NewTicketControl />} />
+        <Route path='/admin' render={(props)=><Admin ticketList={this.props.mastermasterTicketList} currentRouterPath={props.location.pathname} onTicketSelection={this.handlhandleChangingSelectedTicket} selectedTicket={this.state.selectedTicket} />} />
+        <Route component={Error404} />
+      </Switch>
+    </div>
+  );
+}
+}
+
+App.propTypes = {
+masterTicketList: PropTypes.object
+};
+
+const mapStateToProps = state => {
+  return {
+    masterTicketList: state.masterTicketList
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(App));" >> src/components/App.jsx
+
+
+echo "import React from 'react';
+import PropTypes from 'prop-types';
+
+function ConfirmationQuestions(props){
+  return (
+    <div>
+      <p>Have you gone through all the steps on the Learn How to Program debugging lesson?</p>
+      <button onClick={props.onTroubleshootingConfirmation}>Yes</button>
+    </div>
+  );
+}
+
+ConfirmationQuestions.propTypes = {
+  onTroubleshootingConfirmation: PropTypes.func
+};
+
+export default ConfirmationQuestions;" >> src/components/ConfirmationQuestions.jsx
+
+
+
+
+echo "import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+function Error404(props){
+  return (
+    <div>
+      <h2>The page {props.location.pathname} does not exist!</h2>
+      <h3>Would you like to return <Link to='/'>home</Link> instead?</h3>
+    </div>
+  );
+}
+
+Error404.propTypes={
+  location: PropTypes.object
+};
+
+export default Error404;" >> src/components/Error404.jsx
+
+
+
+echo "import React from 'react';
+import { Link } from 'react-router-dom';
+import '../scss/styles.scss';
+
+function Header(){
+  return (
+    <div>
+      <h1 className='bg-grn header'>Help Queue!</h1>
+      <Link to='/'>Home</Link> | <Link to='/newticket'>Create Ticket</Link>
+    </div>
+  );
+}
+
+export default Header;" >> src/components/Header.jsx
+
+
+echo "import React from 'react';
+import ConfirmationQuestions from './ConfirmationQuestions';
+import NewTicketForm from './NewTicketForm';
+
+class NewTicketControl extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      formVisibleOnPage: false
+    };
+    this.handleTroubleshootingConfirmation = this.handleTroubleshootingConfirmation.bind(this);
+  }
+
+  handleTroubleshootingConfirmation(){
+    this.setState({formVisibleOnPage: true});
+  }
+
+  render(){
+    let currentlyVisibleContent = null;
+    if (this.state.formVisibleOnPage){
+      currentlyVisibleContent = <NewTicketForm />;
+    } else {
+      currentlyVisibleContent = <ConfirmationQuestions onTroubleshootingConfirmation={this.handleTroubleshootingConfirmation}/>;
+    }
+    return (
+      <div>
+        {currentlyVisibleContent}
+      </div>
+    );
+  }
+}
+
+export default NewTicketControl;" >> src/components/NewTicketControl.jsx
+
+
+echo "import React from 'react';
+import Moment from 'moment';
+import { connect } from 'react-redux';
+import { v4 } from 'uuid';
+
+function NewTicketForm(props){
+  let _names = null;
+  let _location = null;
+  let _issue = null;
+
+  function handleNewTicketFormSubmission(event) {
+    const { dispatch } = props;
+    event.preventDefault();
+    const action = {
+      type: 'ADD_TICKET',
+      id: v4(),
+      names: _names.value,
+      location: _location.value,
+      issue: _issue.value,
+      timeOpen: new Moment(),
+      formattedWaitTime: new Moment().fromNow(true)
+    };
+    dispatch(action);
+    _names.value = '';
+    _location.value = '';
+    _issue.value = '';
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleNewTicketFormSubmission}>
+        <input
+          type='text'
+          id='names'
+          placeholder='Pair Names'
+          ref={(input) => {_names = input;}}/>
+        <input
+          type='text'
+          id='location'
+          placeholder='Location'
+          ref={(input) => {_location = input;}}/>
+        <textarea
+          id='issue'
+          placeholder='Describe your issue.'
+          ref={(textarea) => {_issue = textarea;}}/>
+        <button type='submit'>Help!</button>
+      </form>
+    </div>
+  );
+}
+
+export default connect()(NewTicketForm);" >> src/components/NewTicketForm.jsx
+
+
+echo "import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+
+function Ticket(props){
+
+
+  function handleSavingSelectedTicket(ticketId) {
+    const { dispatch } = props;
+    const action = {
+      type: 'SELECT_TICKET',
+      ticketId: ticketId
+    };
+    dispatch(action);
+  }
+
+  const ticketInformation =
+    <div>
+      <h3>{props.location} - {props.names}</h3>
+      <h4>{props.formattedWaitTime}</h4>
+      <hr/>
+    </div>;
+    if (props.currentRouterPath === '/admin'){
+    return (
+      <div onClick={() => {handleSavingSelectedTicket(props.ticketId);}}>{ticketInformation}</div>
+    );} else {
+    return (
+      <div>
+        {ticketInformation}
+      </div>
+    );
+  }
+
+}
+
+Ticket.propTypes = {
+  names: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  issue: PropTypes.string,
+  formattedWaitTime: PropTypes.string,
+  currentRouterPath: PropTypes.string,
+  onTicketSelection: PropTypes.func
+};
+
+export default connect()(Ticket);" >> src/components/Ticket.jsx
+
+
+echo "import React from 'react';
+import PropTypes from 'prop-types';
+
+function TicketDetail(props){
+  return (
+    <div>
+      <hr/>
+      <h1>{props.selectedTicket.names} - {props.selectedTicket.location}</h1>
+      <h2>Submitted {props.selectedTicket.formattedWaitTime} ago</h2>
+      <h4><em>{props.selectedTicket.issue}</em></h4>
+      <hr/>
+    </div>
+  );
+}
+
+TicketDetail.propTypes = {
+  selectedTicket: PropTypes.object
+};
+
+export default TicketDetail;" >> src/components/TicketDetail.jsx
+
+echo "import React from 'react';
+import Ticket from './Ticket';
+import PropTypes from 'prop-types';
+
+
+
+
+function TicketList(props){
+  return (
+    <div>
+      <hr/>
+      {Object.keys(props.ticketList).map(function(ticketId) {
+        var ticket = props.ticketList[ticketId];
+        return <Ticket names={ticket.names}
+        location={ticket.location}
+        issue={ticket.issue}
+        formattedWaitTime={ticket.formattedWaitTime}
+        currentRouterPath={props.currentRouterPath}
+        key={ticket.id}
+        onTicketSelection={props.onTicketSelection}/>;
+      })}
+    </div>
+  );
+}
+
+
+TicketList.propTypes = {
+  ticketList: PropTypes.object,
+  currentRouterPath: PropTypes.string,
+  onTicketSelection: PropTypes.func,
+  formattedWaitTime: PropTypes.string
+};
+
+export default TicketList;" >> src/components/TicketList.jsx
+
+
+echo "import selectedTicketReducer from './selected-ticket-reducer';
+import ticketListReducer from './ticket-list-reducer';
+import { combineReducers } from 'redux';
+
+const rootReducer = combineReducers({
+  selectedTicket: selectedTicketReducer,
+  masterTicketList: ticketListReducer
+});
+
+export default rootReducer;" >> src/reducers/index.js
+
+
+echo "export default (state = {}, action) => {
+  switch (action.type) {
+  case 'SELECT_TICKET':
+    return action.ticketId;
+  default:
+    return state;
+  }
+};" >> src/reducers/selected-ticket-reducer.js
+
+
+echo "export default (state = {}, action) => {
+  let newState;
+  const { names, location, issue, timeOpen, id, formattedWaitTime } = action;
+
+  switch (action.type) {
+  case 'ADD_TICKET':
+    newState = Object.assign({}, state, {
+      [id]: {
+        names: names,
+        location: location,
+        issue: issue,
+        timeOpen: timeOpen,
+        id: id,
+        formattedWaitTime: formattedWaitTime
+      }
+    });
+    return newState;
+
+  case 'UPDATE_TIME':
+    const newTicket = Object.assign({}, state[id], {formattedWaitTime});
+    newState = Object.assign({}, state, {
+      [id]: newTicket
+    });
+    return newState;
+
+  default:
+    return state;
+  }
+
+};" >> src/reducers/ticket-list-reducer.js
+
+
+
+
+
+
+
+
+echo "import rootReducer from './../../src/reducers/index';
+import selectedTicketReducer from './../../src/reducers/selected-ticket-reducer';
+import ticketListReducer from './../../src/reducers/ticket-list-reducer';
+import { createStore } from 'redux';
+
+let store = createStore(rootReducer);
+
+describe("rootReducer", () => {
+
+  test('Should return default state if no action type is recognized', () => {
+    expect(rootReducer({}, { type: null })).toEqual({
+      masterTicketList: {},
+      selectedTicket: {}
+    });
+  });
+
+  test('Should contain ticketListReducer logic', () => {
+    expect(store.getState().masterTicketList).toEqual(ticketListReducer(undefined, { type: null }));
+  });
+
+  test('Should contain selectedTicketReducer logic', () => {
+    expect(store.getState().selectedTicket).toEqual(selectedTicketReducer(undefined, { type: null }));
+  });
+
+});" >> _tests_/reducers/index-reducer.test.js
+
+echo "import selectedTicketReducer from './../../src/reducers/selected-ticket-reducer';
+
+describe("selectedTicketReducer", () => {
+
+  test('Should return default state if no action type is recognized', () => {
+    expect(selectedTicketReducer({}, { type: null })).toEqual({});
+  });
+
+  test('Should record which ticket has been selected by user', () => {
+    expect(selectedTicketReducer({}, { type: 'SELECT_TICKET', ticketId: 1 })).toEqual(1);
+  });
+
+});" >> _tests_/reducers/selected-ticket-reducer.test.js
+
+echo "import ticketListReducer from './../../src/reducers/ticket-list-reducer';
+import Moment from 'moment';
+
+
+
+describe('ticketListReducer', () => {
+
+  let action;
+  const sampleTicketData = {
+    names : 'Ryan & Aimen',
+    location : '4b',
+    issue : 'Jest is being a diva and won\'t work with Webpack!',
+    timeOpen : 1500000000000,
+    id: 0
+  };
+
+  test('Should return default state if no action type is recognized', () => {
+    expect(ticketListReducer({}, { type: null })).toEqual({});
+  });
+
+  test('Should successfully add new ticket data to masterTicketList', () => {
+    const { names, location, issue, timeOpen, id } = sampleTicketData;
+    action = {
+      type: 'ADD_TICKET',
+      names: names,
+      location: location,
+      issue: issue,
+      timeOpen: timeOpen,
+      id: id
+    };
+    expect(ticketListReducer({}, action)).toEqual({
+      [id] : {
+        names: names,
+        location: location,
+        issue: issue,
+        timeOpen: timeOpen,
+        id: id
+      }
+    });
+  });
+  test('Should add freshly-calculated Moment-formatted wait time to ticket entry', () => {
+  const { names, location, issue, timeOpen, id } = sampleTicketData;
+  action = {
+    type: 'UPDATE_TIME',
+    formattedWaitTime: '4 minutes',
+    id: id
+  };
+  expect(ticketListReducer({ [id] : sampleTicketData }, action)).toEqual({
+    [id] : {
+      names: names,
+      location: location,
+      issue: issue,
+      timeOpen: timeOpen,
+      id: id,
+      formattedWaitTime: '4 minutes'
+    }
+    });
+  });
+  test('New ticket should include Moment-formatted wait times', () => {
+  const { names, location, issue, timeOpen, id } = sampleTicketData;
+  action = {
+    type: 'ADD_TICKET',
+    names: names,
+    location: location,
+    issue: issue,
+    timeOpen: timeOpen,
+    id: id,
+    formattedWaitTime: new Moment().fromNow(true)
+  };
+  expect(ticketListReducer({}, action)).toEqual({
+    [id] : {
+      names: names,
+      location: location,
+      issue: issue,
+      timeOpen: timeOpen,
+      id: id,
+      formattedWaitTime: 'a few seconds'
+    }
+    });
+  });
+});" >> _tests_/reducers/ticket-list-reducer.test.js
+
+
+
+echo '
+{
+  "name": "react-template",
+  "version": "1.0.0",
+  "description": "This will act as template",
+  "main": "index.jsx",
+  "scripts": {
+    "test": "jest; exit 0",
+    "start": "webpack-dev-server & open http://localhost:8080/",
+    "lint": "eslint src/** src/**/**; exit 0",
+    "fix": "eslint src/** src/**/** --fix; exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lilkgb/react-template"
+  },
+  "keywords": [
+    "react",
+    "template"
+  ],
+  "author": "Ryan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lilkgb/react-template"
+  },
+  "homepage": "https://github.com/Lilkgb/react-template",
+  "dependencies": {
+    "aos": "^3.0.0-beta.6",
+    "css-loader": "^2.1.1",
+    "moment": "^2.18.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.0.0",
+    "redux": "^3.7.2",
+    "style-loader": "^0.23.1",
+    "styled-jsx": "^3.2.1",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-jest": "^20.0.3",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.13.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-react": "^7.12.4",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^2.29.0",
+    "jest": "^20.0.4",
+    "node-sass": "^4.11.0",
+    "react-hot-loader": "^3.0.0-beta.7",
+    "sass-lint": "^1.12.1",
+    "sass-loader": "^7.1.0",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.12.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^2.11.5"
+  }
+}' >> package.json
+
+
+
+
+
+echo "import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+import { AppContainer } from 'react-hot-loader';
+import AOS from 'aos';
+import 'aos/src/sass/aos.scss';
+import { HashRouter } from 'react-router-dom';
+import { createStore } from 'redux';
+import ticketListReducer from './reducers/ticket-list-reducer';
+import { Provider } from 'react-redux';
+import rootReducer from './reducers/index';
+
+
+const store = createStore(rootReducer);
+
+let unsubscribe = store.subscribe(() =>
+  console.log(store.getState())
+);
+
+const render = (Component) => {
+  AOS.init();
+  AOS.refresh();
+  ReactDOM.render(
+    <HashRouter>
+      <Provider store={store}>
+        <Component/>
+      </Provider>
+    </HashRouter>,
+    document.getElementById('react-app-root')
+  );
+};
+
+render(App);
+
+/*eslint-disable */
+if (module.hot) {
+  module.hot.accept('./components/App', () => {
+    render(App);
+  });
+}
+/*eslint-enable */" >> src/index.jsx
+
+git init
+
+npm i
+
+atom .
+
+
+
+
+
+# get user name
+username=`git config github.user`
+if [ "$username" = "" ]; then
+    echo "Could not find username, run 'git config --global github.user <username>'"
+    invalid_credentials=1
+fi
+
+# get repo name
+dir_name=`basename $(pwd)`
+read -p "Do you want to use '$dir_name' as a repo name?(y/n): " answer_dirname
+case $answer_dirname in
+  y)
+    # use currently dir name as a repo name
+    reponame=$dir_name
+    ;;
+  n)
+    read -p "Enter your new repository name: " reponame
+    if [ "$reponame" = "" ]; then
+        reponame=$dir_name
+    fi
+    ;;
+  *)
+    ;;
+esac
+
+
+# create repo
+echo "Creating Github repository '$reponame' ..."
+curl -u $username https://api.github.com/user/repos -d '{"name":"'$reponame'"}'
+echo " done."
+
+
+# push to remote repo
+echo "Pushing to remote ..."
+git init
+git add -A
+git commit -m "Initial Setup"
+git remote rm origin
+git remote add origin https://github.com/$username/$reponame.git
+git push -u origin master
+echo " done."
+
+# open in a browser
+read -p "Do you want to load this page on LocalHost?(y/n): " answer_browser
+
+case $answer_browser in
+  y)
+    echo "Opening in a browser ..."
+    npm run start
+    ;;
+  n)
+    ;;
+  *)
+    ;;
+esac
