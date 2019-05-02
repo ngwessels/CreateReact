@@ -94,7 +94,7 @@ touch .eslintignore
 touch .babelrc
 touch src/index.jsx
 touch src/components/Admin.jsx src/components/App.jsx src/components/ConfirmationQuestions.jsx src/components/Error404.jsx src/components/Header.jsx src/components/NewTicketControl.jsx src/components/NewTicketForm.jsx src/components/Ticket.jsx src/components/TicketDetail.jsx src/components/TicketList.jsx src/reducers/index.js src/reducers/selected-ticket-reducer.js src/reducers/ticket-list-reducer.js src/scss/backgrounds.scss src/scss/hovers.scss src/scss/styles.scss
-touch _tests_/reducers/index-reducer.test.js _test_/reducers/selected-ticket-reducer.test.js _tests_/reducers/ticket-list-reducer.test.js
+touch _tests_/reducers/index-reducer.test.js _tests_/reducers/selected-ticket-reducer.test.js _tests_/reducers/ticket-list-reducer.test.js
 touch package.json
 
 
@@ -903,7 +903,8 @@ echo '
     "test": "jest; exit 0",
     "start": "webpack-dev-server & open http://localhost:8080/",
     "lint": "eslint src/** src/**/**; exit 0",
-    "fix": "eslint src/** src/**/** --fix; exit 0"
+    "fix": "eslint src/** src/**/** --fix; exit 0",
+    "bash": "./B.sh"
   },
   "repository": {
     "type": "git",
@@ -1002,11 +1003,92 @@ if (module.hot) {
 }
 /*eslint-enable */" >> src/index.jsx
 
+
+cat << EOF > B.sh
+#!/bin/bash
+
+
+read -p 'What do you want to do? [add, commit]' command
+
+case \$command in
+
+commit)
+    read -r -p 'Commit Message: ' commitMessage
+    echo "Git add ."
+    git add .
+    echo 'git commit -m "\${commitMessage}"'
+    git commit -m '\${commitMessage}'
+    echo 'pushing'
+    # get user name
+    username=`git config github.user`
+    if [ '$username' = '' ]; then
+        echo 'Could not find username, run "git config --global github.user <username>"'
+        invalid_credentials=1
+    fi
+    \$username/\$reponame.github
+    git push origin master
+    echo 'done'
+    ;;
+
+  add)
+    read -r -p 'Component Name: ' Name
+    read -r -p 'Function or Class: ' type
+    foo=\${Name}
+    foo=`echo \${foo:0:1} | tr  '[a-z]' '[A-Z]'`\${foo:1}
+    echo "Creating \$foo as type \$type"
+    touch src/components/\$Name.jsx
+    case \$type in
+      Class)
+        echo 'import React from "react";
+
+class ${foo} extends React.Component {
+  constructor(props) {
+  super(props);
+  }
+  render() {
+    return (
+      <div> Hello World! </div>
+    );
+  }
+}
+export default ${foo}' >> src/components/\$Name.jsx
+      ;;
+
+      Function)
+        echo 'import React from "react";
+
+ function \${Name}() {
+  return (
+    <div> Hello World! </div>
+  );
+}
+export default \${Name}' >> src/components/\$Name.jsx
+    ;;
+    *)
+      ;;
+    esac
+  ;;
+  *)
+esac
+EOF
+chmod 700 B.sh
+echo "Add Bash Script"
+
+
+
+
+
+
+
+
+
+
+
+
 git init
-
-npm i
-
+osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down'
 atom .
+npm i
 
 
 
