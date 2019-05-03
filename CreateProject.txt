@@ -70,8 +70,6 @@ _Author_ **${UserName}**
 
 ### Installation
 * Clone from https://github.com/${githubUser}/${ProjectName}
-* Run `$ npm install`
-* Add API key to .env file in root directory as `exports.apiKey = {{ API KEY }}`
 
 ### Known Bugs
 * None identified
