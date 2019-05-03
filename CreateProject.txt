@@ -104,18 +104,6 @@ touch src/components/Admin.jsx src/components/App.jsx src/components/Confirmatio
 touch _tests_/reducers/index-reducer.test.js _tests_/reducers/selected-ticket-reducer.test.js _tests_/reducers/ticket-list-reducer.test.js
 touch package.json
 
-
-
-
-
-
-
-
-
-
-
-
-
 #Creat Project
 
 Echo "
@@ -125,108 +113,108 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 
-entry: [
-'react-hot-loader/patch',
-'webpack-dev-server/client?http://localhost:8080',
-'webpack/hot/only-dev-server',
-resolve(__dirname, 'src', 'index.jsx')
-],
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+    resolve(__dirname, 'src', 'index.jsx')
+  ],
 
-output: {
-filename: 'app.bundle.js',
-path: resolve(__dirname, 'build'),
-publicPath: '/'
-},
+  output: {
+    filename: 'app.bundle.js',
+    path: resolve(__dirname, 'build'),
+    publicPath: '/'
+  },
 
-resolve: {
-extensions: ['.js', '.jsx']
-},
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
 
-devtool: '#source-map',
+  devtool: '#source-map',
 
-devServer: {
-hot: true,
-contentBase: resolve(__dirname, 'build'),
-publicPath: '/'
-},
+  devServer: {
+    hot: true,
+    contentBase: resolve(__dirname, 'build'),
+    publicPath: '/'
+  },
 
-module: {
-loaders: [
-{
-test: /\.js$/,
-loader: 'babel-loader',
-query: {
-presets: ['es2015', 'react']
-}
-}
-],
-rules: [
-{
-test: /\.scss$/,
-use: ['style-loader', 'css-loader', 'sass-loader']
-},
-{
-test: /\.(png|gif|jp(e*)g|svg)$/,
-use: {
-loader: 'url-loader',
-options: {
-limit: 8000,
-name: 'images/[hash]-[name].[ext]'
-}
-}
-},
-{
-test: /\.jsx?$/,
-enforce: 'pre',
-loader: 'eslint-loader',
-exclude: /node_modules/,
-options: {
-emitWarning: true,
-configFile: './.eslintrc.json'
-}
-},
-{
-test: /\.jsx?$/,
-loader: 'babel-loader',
-exclude: /node_modules/,
-options: {
-presets: [
-['es2015', {'modules': false}],
-'react',
-],
-plugins: [
-'react-hot-loader/babel',
-'styled-jsx/babel'
-]
-}
-}
-]
-},
+  module: {
+  loaders: [
+    {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      query: {
+        presets: ['es2015', 'react']
+      }
+    }
+  ],
+  rules: [
+    {
+      test: /\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader']
+    },
+    {
+      test: /\.(png|gif|jp(e*)g|svg)$/,
+      use: {
+        loader: 'url-loader',
+        options: {
+          limit: 8000,
+          name: 'images/[hash]-[name].[ext]'
+        }
+      }
+    },
+    {
+      test: /\.jsx?$/,
+      enforce: 'pre',
+      loader: 'eslint-loader',
+      exclude: /node_modules/,
+      options: {
+        emitWarning: true,
+        configFile: './.eslintrc.json'
+      }
+    },
+    {
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      options: {
+        presets: [
+          ['es2015', {'modules': false}],
+          'react',
+          ],
+        plugins: [
+          'react-hot-loader/babel',
+          'styled-jsx/babel'
+        ]
+      }
+    }
+  ]
+  },
 
-plugins: [
-new webpack.HotModuleReplacementPlugin(),
-new webpack.NamedModulesPlugin(),
-new HtmlWebpackPlugin({
-template:'template.ejs',
-appMountId: 'react-app-root',
-title: 'React Help Queue',
-filename: resolve(__dirname, 'build', 'index.html'),
-}),
-]
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+    template:'template.ejs',
+    appMountId: 'react-app-root',
+    title: 'React Help Queue',
+    filename: resolve(__dirname, 'build', 'index.html'),
+    }),
+  ]
 };" >> webpack.config.js
 
 
 
 echo '<!DOCTYPE html>
-<head>
-<meta charset="utf-8">
-<title><%= htmlWebpackPlugin.options.title%></title>
-</head>
-<body style="margin: 0; padding: 0">
-<% if (htmlWebpackPlugin.options.appMountId) { %>
-<div id="<%= htmlWebpackPlugin.options.appMountId%>"></div>
-<% } %>
-</body>
+  <head>
+  <meta charset="utf-8">
+  <title><%= htmlWebpackPlugin.options.title%></title>
+  </head>
+  <body style="margin: 0; padding: 0">
+    <% if (htmlWebpackPlugin.options.appMountId) { %>
+    <div id="<%= htmlWebpackPlugin.options.appMountId%>"></div>
+    <% } %>
+  </body>
 </html>' >> template.ejs
 
 
@@ -239,61 +227,58 @@ package-lock.json" >> .gitignore
 
 
 echo '{
-"env": {
-"browser": true,
-"es6": true
-},
-"extends": "eslint:recommended",
-"parserOptions": {
-"ecmaVersion": 6,
-"sourceType": "module",
-"ecmaFeatures": {
-"experimentalObjectRestSpread": true,
-"jsx": true
-}
-},
-"plugins": [
-"react"
-],
-"rules": {
-"react/jsx-uses-vars": 2,
-"react/jsx-uses-react": 2,
-"react/jsx-no-duplicate-props": 2,
-"react/jsx-no-undef": 2,
-"react/no-multi-comp": 2,
-"react/jsx-key": 2,
-"react/jsx-indent-props": [
-"error",
-2
-],
-"react/jsx-pascal-case": 2,
-"react/prop-types": 2,
-"no-case-declarations": 2,
-"react/jsx-indent": [
-"error",
-2
-],
-"indent": [
-"error",
-2
-],
-"linebreak-style": [
-"error",
-"unix"
-],
-"quotes": [
-"error",
-"single"
-],
-"semi": [
-"error",
-"always"
-]
-}
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+    "experimentalObjectRestSpread": true,
+    "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "react/jsx-uses-vars": 2,
+    "react/jsx-uses-react": 2,
+    "react/jsx-no-duplicate-props": 2,
+    "react/jsx-no-undef": 2,
+    "react/no-multi-comp": 2,
+    "react/jsx-key": 2,
+    "react/jsx-indent-props": [
+      "error",
+      2
+    ],
+    "react/jsx-pascal-case": 2,
+    "react/prop-types": 2,
+    "no-case-declarations": 2,
+    "react/jsx-indent": [
+      "error",
+      2
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
 }' >> .eslintrc.json
-
-
-
 
 echo "**/*.scss" >> .eslintignore
 
@@ -301,14 +286,14 @@ echo "**/*.scss" >> .eslintignore
 
 
 echo '{
-"env": {
-"development": {
-"plugins": ["transform-es2015-modules-commonjs"]
-},
-"test": {
-"plugins": ["transform-es2015-modules-commonjs"]
-}
-}
+  "env": {
+    "development": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
 }' >> .babelrc
 
 
@@ -320,25 +305,25 @@ echo '{
 echo "
 
 .bg-gry{
-background-color: #eee;
+  background-color: #eee;
 }
 .bg-grn{
-background-color: #15DF12;
+  background-color: #15DF12;
 }" >> src/scss/backgrounds.scss
 
 echo ".hover-shadow:hover{
-box-shadow: 0px 0px 10px limegreen;
+  box-shadow: 0px 0px 10px limegreen;
 }" >> src/scss/hovers.scss
 
 echo "@import 'backgrounds.scss';
 @import 'hovers.scss';
 
 .header{
-width: 100%;
-position: sticky;
-top: 0;
-margin: 0;
-padding: 20px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  margin: 0;
+  padding: 20px;
 }" >> src/scss/styles.scss
 
 
@@ -352,34 +337,34 @@ import TicketDetail from './TicketDetail';
 import { connect } from 'react-redux';
 
 function Admin(props){
-let optionalSelectedTicketContent = null;
-if (props.selectedTicket > 0) {
-optionalSelectedTicketContent = <TicketDetail selectedTicket={props.ticketList[props.selectedTicket]} />
-}
-return (
-<div>
-<h2>Admin</h2>
-{optionalSelectedTicketContent}
-<TicketList
-ticketList={props.ticketList}
-currentRouterPath={props.currentRouterPath}
-onTicketSelection={props.onTicketSelection}/>
-</div>
-);
+  let optionalSelectedTicketContent = null;
+  if (props.selectedTicket > 0) {
+    optionalSelectedTicketContent = <TicketDetail selectedTicket={props.ticketList[props.selectedTicket]} />
+  }
+  return (
+    <div>
+    <h2>Admin</h2>
+    {optionalSelectedTicketContent}
+    <TicketList
+    ticketList={props.ticketList}
+    currentRouterPath={props.currentRouterPath}
+    onTicketSelection={props.onTicketSelection}/>
+    </div>
+  );
 }
 
 Admin.propTypes = {
-ticketList: PropTypes.array,
-currentRouterPath: PropTypes.string.isRequired,
-onTicketSelection: PropTypes.func.isRequired,
-selectedTicket: PropTypes.object
+  ticketList: PropTypes.array,
+  currentRouterPath: PropTypes.string.isRequired,
+  onTicketSelection: PropTypes.func.isRequired,
+  selectedTicket: PropTypes.object
 };
 
 const mapStateToProps = state => {
-return {
-selectedTicket: state.selectedTicket,
-ticketList: state.masterTicketList
-};
+  return {
+    selectedTicket: state.selectedTicket,
+    ticketList: state.masterTicketList
+  };
 };
 
 
@@ -398,66 +383,66 @@ import PropTypes from 'prop-types';
 
 class App extends React.Component {
 
-constructor(props) {
-super(props);
-this.state = {
-selectedTicket: null
-};
-this.handleChangingSelectedTicket = this.handleChangingSelectedTicket.bind(this);
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTicket: null
+    };
+    this.handleChangingSelectedTicket = this.handleChangingSelectedTicket.bind(this);
+  }
 
-componentDidMount() {
-this.waitTimeUpdateTimer = setInterval(() =>
-this.updateTicketElapsedWaitTime(),
-60000
-);
-}
+  componentDidMount() {
+    this.waitTimeUpdateTimer = setInterval(() =>
+      this.updateTicketElapsedWaitTime(),
+      60000
+    );
+  }
 
-componentWillUnmount(){
-clearInterval(this.waitTimeUpdateTimer);
-}
+  componentWillUnmount(){
+    clearInterval(this.waitTimeUpdateTimer);
+  }
 
-updateTicketElapsedWaitTime() {
-const { dispatch } = this.props;
-Object.keys(this.props.masterTicketList).map(ticketId => {
-const ticket = this.props.masterTicketList[ticketId];
-const newFormattedWaitTime = ticket.timeOpen.fromNow(true);
-const action = {
-type: 'UPDATE_TIME',
-id: ticketId,
-formattedWaitTime: newFormattedWaitTime
-};
-dispatch(action);
-});
-}
+  updateTicketElapsedWaitTime() {
+    const { dispatch } = this.props;
+    Object.keys(this.props.masterTicketList).map(ticketId => {
+      const ticket = this.props.masterTicketList[ticketId];
+      const newFormattedWaitTime = ticket.timeOpen.fromNow(true);
+      const action = {
+        type: 'UPDATE_TIME',
+        id: ticketId,
+        formattedWaitTime: newFormattedWaitTime
+      };
+      dispatch(action);
+    });
+  }
 
-handleChangingSelectedTicket(ticketId){
-this.setState({selectedTicket: ticketId});
-}
+  handleChangingSelectedTicket(ticketId){
+    this.setState({selectedTicket: ticketId});
+  }
 
-render(){
-return (
-<div>
-<Header/>
-<Switch>
-<Route exact path='/' render={()=><TicketList ticketList={this.props.masterTicketList} />} />
-<Route path='/newticket' render={()=><NewTicketControl />} />
-<Route path='/admin' render={(props)=><Admin ticketList={this.props.mastermasterTicketList} currentRouterPath={props.location.pathname} onTicketSelection={this.handlhandleChangingSelectedTicket} selectedTicket={this.state.selectedTicket} />} />
-<Route component={Error404} />
-</Switch>
-</div>
-);
-}
+  render(){
+  return (
+    <div>
+    <Header/>
+      <Switch>
+        <Route exact path='/' render={()=><TicketList ticketList={this.props.masterTicketList} />} />
+        <Route path='/newticket' render={()=><NewTicketControl />} />
+        <Route path='/admin' render={(props)=><Admin ticketList={this.props.mastermasterTicketList} currentRouterPath={props.location.pathname} onTicketSelection={this.handlhandleChangingSelectedTicket} selectedTicket={this.state.selectedTicket} />} />
+        <Route component={Error404} />
+      </Switch>
+    </div>
+    );
+  }
 }
 
 App.propTypes = {
-masterTicketList: PropTypes.object
+  masterTicketList: PropTypes.object
 };
 
 const mapStateToProps = state => {
-return {
-masterTicketList: state.masterTicketList
-};
+  return {
+    masterTicketList: state.masterTicketList
+  };
 };
 
 export default withRouter(connect(mapStateToProps)(App));" >> src/components/App.jsx
@@ -467,16 +452,16 @@ echo "import React from 'react';
 import PropTypes from 'prop-types';
 
 function ConfirmationQuestions(props){
-return (
-<div>
-<p>Have you gone through all the steps on the Learn How to Program debugging lesson?</p>
-<button onClick={props.onTroubleshootingConfirmation}>Yes</button>
-</div>
-);
+  return (
+    <div>
+      <p>Have you gone through all the steps on the Learn How to Program debugging lesson?</p>
+      <button onClick={props.onTroubleshootingConfirmation}>Yes</button>
+    </div>
+  );
 }
 
 ConfirmationQuestions.propTypes = {
-onTroubleshootingConfirmation: PropTypes.func
+  onTroubleshootingConfirmation: PropTypes.func
 };
 
 export default ConfirmationQuestions;" >> src/components/ConfirmationQuestions.jsx
@@ -489,16 +474,16 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function Error404(props){
-return (
-<div>
-<h2>The page {props.location.pathname} does not exist!</h2>
-<h3>Would you like to return <Link to='/'>home</Link> instead?</h3>
-</div>
-);
+  return (
+    <div>
+      <h2>The page {props.location.pathname} does not exist!</h2>
+      <h3>Would you like to return <Link to='/'>home</Link> instead?</h3>
+    </div>
+  );
 }
 
 Error404.propTypes={
-location: PropTypes.object
+  location: PropTypes.object
 };
 
 export default Error404;" >> src/components/Error404.jsx
@@ -510,12 +495,12 @@ import { Link } from 'react-router-dom';
 import '../scss/styles.scss';
 
 function Header(){
-return (
-<div>
-<h1 className='bg-grn header'>Help Queue!</h1>
-<Link to='/'>Home</Link> | <Link to='/newticket'>Create Ticket</Link>
-</div>
-);
+  return (
+    <div>
+      <h1 className='bg-grn header'>Help Queue!</h1>
+      <Link to='/'>Home</Link> | <Link to='/newticket'>Create Ticket</Link>
+    </div>
+  );
 }
 
 export default Header;" >> src/components/Header.jsx
@@ -527,31 +512,31 @@ import NewTicketForm from './NewTicketForm';
 
 class NewTicketControl extends React.Component {
 
-constructor(props) {
-super(props);
-this.state = {
-formVisibleOnPage: false
-};
-this.handleTroubleshootingConfirmation = this.handleTroubleshootingConfirmation.bind(this);
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      formVisibleOnPage: false
+    };
+    this.handleTroubleshootingConfirmation = this.handleTroubleshootingConfirmation.bind(this);
+  }
 
-handleTroubleshootingConfirmation(){
-this.setState({formVisibleOnPage: true});
-}
+  handleTroubleshootingConfirmation(){
+    this.setState({formVisibleOnPage: true});
+  }
 
-render(){
-let currentlyVisibleContent = null;
-if (this.state.formVisibleOnPage){
-currentlyVisibleContent = <NewTicketForm />;
-} else {
-currentlyVisibleContent = <ConfirmationQuestions onTroubleshootingConfirmation={this.handleTroubleshootingConfirmation}/>;
-}
-return (
-<div>
-{currentlyVisibleContent}
-</div>
-);
-}
+  render(){
+    let currentlyVisibleContent = null;
+    if (this.state.formVisibleOnPage){
+      currentlyVisibleContent = <NewTicketForm />;
+    } else {
+      currentlyVisibleContent = <ConfirmationQuestions onTroubleshootingConfirmation={this.handleTroubleshootingConfirmation}/>;
+    }
+    return (
+      <div>
+        {currentlyVisibleContent}
+      </div>
+    );
+  }
 }
 
 export default NewTicketControl;" >> src/components/NewTicketControl.jsx
@@ -568,44 +553,33 @@ let _location = null;
 let _issue = null;
 
 function handleNewTicketFormSubmission(event) {
-const { dispatch } = props;
-event.preventDefault();
-const action = {
-type: 'ADD_TICKET',
-id: v4(),
-names: _names.value,
-location: _location.value,
-issue: _issue.value,
-timeOpen: new Moment(),
-formattedWaitTime: new Moment().fromNow(true)
-};
-dispatch(action);
-_names.value = '';
-_location.value = '';
-_issue.value = '';
-}
+  const { dispatch } = props;
+  event.preventDefault();
+  const action = {
+    type: 'ADD_TICKET',
+    id: v4(),
+    names: _names.value,
+    location: _location.value,
+    issue: _issue.value,
+    timeOpen: new Moment(),
+    formattedWaitTime: new Moment().fromNow(true)
+  };
+  dispatch(action);
+  _names.value = '';
+  _location.value = '';
+  _issue.value = '';
+  }
 
-return (
-<div>
-<form onSubmit={handleNewTicketFormSubmission}>
-<input
-type='text'
-id='names'
-placeholder='Pair Names'
-ref={(input) => {_names = input;}}/>
-<input
-type='text'
-id='location'
-placeholder='Location'
-ref={(input) => {_location = input;}}/>
-<textarea
-id='issue'
-placeholder='Describe your issue.'
-ref={(textarea) => {_issue = textarea;}}/>
-<button type='submit'>Help!</button>
-</form>
-</div>
-);
+  return (
+    <div>
+      <form onSubmit={handleNewTicketFormSubmission}>
+      <input type='text' id='names' placeholder='Pair Names' ref={(input) => {_names = input;}}/>
+        <input type='text' id='location' placeholder='Location' ref={(input) => {_location = input;}}/>
+        <textarea id='issue' placeholder='Describe your issue.' ref={(textarea) => {_issue = textarea;}}/>
+        <button type='submit'>Help!</button>
+      </form>
+    </div>
+  );
 }
 
 export default connect()(NewTicketForm);" >> src/components/NewTicketForm.jsx
@@ -619,41 +593,42 @@ import { connect } from 'react-redux';
 function Ticket(props){
 
 
-function handleSavingSelectedTicket(ticketId) {
-const { dispatch } = props;
-const action = {
-type: 'SELECT_TICKET',
-ticketId: ticketId
-};
-dispatch(action);
-}
+  function handleSavingSelectedTicket(ticketId) {
+    const { dispatch } = props;
+    const action = {
+      type: 'SELECT_TICKET',
+      ticketId: ticketId
+    };
+    dispatch(action);
+  }
 
-const ticketInformation =
-<div>
-<h3>{props.location} - {props.names}</h3>
-<h4>{props.formattedWaitTime}</h4>
-<hr/>
-</div>;
-if (props.currentRouterPath === '/admin'){
-return (
-<div onClick={() => {handleSavingSelectedTicket(props.ticketId);}}>{ticketInformation}</div>
-);} else {
-return (
-<div>
-{ticketInformation}
-</div>
-);
-}
+  const ticketInformation =
+    <div>
+      <h3>{props.location} - {props.names}</h3>
+      <h4>{props.formattedWaitTime}</h4>
+      <hr/>
+    </div>;
+  if (props.currentRouterPath === '/admin'){
+    return (
+      <div onClick={() => {handleSavingSelectedTicket(props.ticketId);}}>{ticketInformation}</div>
+    );
+  } else {
+    return (
+      <div>
+      {ticketInformation}
+      </div>
+    );
+  }
 
 }
 
 Ticket.propTypes = {
-names: PropTypes.string.isRequired,
-location: PropTypes.string.isRequired,
-issue: PropTypes.string,
-formattedWaitTime: PropTypes.string,
-currentRouterPath: PropTypes.string,
-onTicketSelection: PropTypes.func
+  names: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  issue: PropTypes.string,
+  formattedWaitTime: PropTypes.string,
+  currentRouterPath: PropTypes.string,
+  onTicketSelection: PropTypes.func
 };
 
 export default connect()(Ticket);" >> src/components/Ticket.jsx
@@ -663,19 +638,19 @@ echo "import React from 'react';
 import PropTypes from 'prop-types';
 
 function TicketDetail(props){
-return (
-<div>
-<hr/>
-<h1>{props.selectedTicket.names} - {props.selectedTicket.location}</h1>
-<h2>Submitted {props.selectedTicket.formattedWaitTime} ago</h2>
-<h4><em>{props.selectedTicket.issue}</em></h4>
-<hr/>
-</div>
-);
+  return (
+    <div>
+      <hr/>
+      <h1>{props.selectedTicket.names} - {props.selectedTicket.location}</h1>
+      <h2>Submitted {props.selectedTicket.formattedWaitTime} ago</h2>
+      <h4><em>{props.selectedTicket.issue}</em></h4>
+      <hr/>
+    </div>
+  );
 }
 
 TicketDetail.propTypes = {
-selectedTicket: PropTypes.object
+  selectedTicket: PropTypes.object
 };
 
 export default TicketDetail;" >> src/components/TicketDetail.jsx
@@ -688,29 +663,29 @@ import PropTypes from 'prop-types';
 
 
 function TicketList(props){
-return (
-<div>
-<hr/>
-{Object.keys(props.ticketList).map(function(ticketId) {
-var ticket = props.ticketList[ticketId];
-return <Ticket names={ticket.names}
-location={ticket.location}
-issue={ticket.issue}
-formattedWaitTime={ticket.formattedWaitTime}
-currentRouterPath={props.currentRouterPath}
-key={ticket.id}
-onTicketSelection={props.onTicketSelection}/>;
-})}
-</div>
-);
+  return (
+    <div>
+    <hr/>
+    {Object.keys(props.ticketList).map(function(ticketId) {
+      var ticket = props.ticketList[ticketId];
+      return <Ticket names={ticket.names}
+      location={ticket.location}
+      issue={ticket.issue}
+      formattedWaitTime={ticket.formattedWaitTime}
+      currentRouterPath={props.currentRouterPath}
+      key={ticket.id}
+      onTicketSelection={props.onTicketSelection}/>;
+    })}
+    </div>
+  );
 }
 
 
 TicketList.propTypes = {
-ticketList: PropTypes.object,
-currentRouterPath: PropTypes.string,
-onTicketSelection: PropTypes.func,
-formattedWaitTime: PropTypes.string
+  ticketList: PropTypes.object,
+  currentRouterPath: PropTypes.string,
+  onTicketSelection: PropTypes.func,
+  formattedWaitTime: PropTypes.string
 };
 
 export default TicketList;" >> src/components/TicketList.jsx
@@ -721,20 +696,20 @@ import ticketListReducer from './ticket-list-reducer';
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
-selectedTicket: selectedTicketReducer,
-masterTicketList: ticketListReducer
+  selectedTicket: selectedTicketReducer,
+  masterTicketList: ticketListReducer
 });
 
 export default rootReducer;" >> src/reducers/index.js
 
 
 echo "export default (state = {}, action) => {
-switch (action.type) {
-case 'SELECT_TICKET':
-return action.ticketId;
-default:
-return state;
-}
+  switch (action.type) {
+    case 'SELECT_TICKET':
+    return action.ticketId;
+    default:
+    return state;
+  }
 };" >> src/reducers/selected-ticket-reducer.js
 
 
@@ -743,27 +718,27 @@ let newState;
 const { names, location, issue, timeOpen, id, formattedWaitTime } = action;
 
 switch (action.type) {
-case 'ADD_TICKET':
+  case 'ADD_TICKET':
 newState = Object.assign({}, state, {
-[id]: {
-names: names,
-location: location,
-issue: issue,
-timeOpen: timeOpen,
-id: id,
-formattedWaitTime: formattedWaitTime
-}
+  [id]: {
+    names: names,
+    location: location,
+    issue: issue,
+    timeOpen: timeOpen,
+    id: id,
+    formattedWaitTime: formattedWaitTime
+  }
 });
 return newState;
 
-case 'UPDATE_TIME':
+  case 'UPDATE_TIME':
 const newTicket = Object.assign({}, state[id], {formattedWaitTime});
 newState = Object.assign({}, state, {
-[id]: newTicket
+  [id]: newTicket
 });
 return newState;
 
-default:
+  default:
 return state;
 }
 
@@ -785,20 +760,20 @@ let store = createStore(rootReducer);
 
 describe("rootReducer", () => {
 
-test('Should return default state if no action type is recognized', () => {
-expect(rootReducer({}, { type: null })).toEqual({
-masterTicketList: {},
-selectedTicket: {}
-});
-});
+  test('Should return default state if no action type is recognized', () => {
+    expect(rootReducer({}, { type: null })).toEqual({
+      masterTicketList: {},
+      selectedTicket: {}
+    });
+  });
 
-test('Should contain ticketListReducer logic', () => {
-expect(store.getState().masterTicketList).toEqual(ticketListReducer(undefined, { type: null }));
-});
+  test('Should contain ticketListReducer logic', () => {
+    expect(store.getState().masterTicketList).toEqual(ticketListReducer(undefined, { type: null }));
+  });
 
-test('Should contain selectedTicketReducer logic', () => {
-expect(store.getState().selectedTicket).toEqual(selectedTicketReducer(undefined, { type: null }));
-});
+  test('Should contain selectedTicketReducer logic', () => {
+    expect(store.getState().selectedTicket).toEqual(selectedTicketReducer(undefined, { type: null }));
+  });
 
 });" >> _tests_/reducers/index-reducer.test.js
 
@@ -806,13 +781,13 @@ echo "import selectedTicketReducer from './../../src/reducers/selected-ticket-re
 
 describe("selectedTicketReducer", () => {
 
-test('Should return default state if no action type is recognized', () => {
-expect(selectedTicketReducer({}, { type: null })).toEqual({});
-});
+  test('Should return default state if no action type is recognized', () => {
+    expect(selectedTicketReducer({}, { type: null })).toEqual({});
+  });
 
-test('Should record which ticket has been selected by user', () => {
-expect(selectedTicketReducer({}, { type: 'SELECT_TICKET', ticketId: 1 })).toEqual(1);
-});
+  test('Should record which ticket has been selected by user', () => {
+    expect(selectedTicketReducer({}, { type: 'SELECT_TICKET', ticketId: 1 })).toEqual(1);
+  });
 
 });" >> _tests_/reducers/selected-ticket-reducer.test.js
 
@@ -823,145 +798,145 @@ import Moment from 'moment';
 
 describe('ticketListReducer', () => {
 
-let action;
-const sampleTicketData = {
-names : 'Ryan & Aimen',
-location : '4b',
-issue : 'Jest is being a diva and won\'t work with Webpack!',
-timeOpen : 1500000000000,
-id: 0
-};
+  let action;
+  const sampleTicketData = {
+    names : 'Ryan & Aimen',
+    location : '4b',
+    issue : 'Jest is being a diva and won\'t work with Webpack!',
+    timeOpen : 1500000000000,
+    id: 0
+  };
 
-test('Should return default state if no action type is recognized', () => {
-expect(ticketListReducer({}, { type: null })).toEqual({});
-});
+  test('Should return default state if no action type is recognized', () => {
+    expect(ticketListReducer({}, { type: null })).toEqual({});
+  });
 
-test('Should successfully add new ticket data to masterTicketList', () => {
-const { names, location, issue, timeOpen, id } = sampleTicketData;
-action = {
-type: 'ADD_TICKET',
-names: names,
-location: location,
-issue: issue,
-timeOpen: timeOpen,
-id: id
-};
-expect(ticketListReducer({}, action)).toEqual({
-[id] : {
-names: names,
-location: location,
-issue: issue,
-timeOpen: timeOpen,
-id: id
-}
-});
-});
-test('Should add freshly-calculated Moment-formatted wait time to ticket entry', () => {
-const { names, location, issue, timeOpen, id } = sampleTicketData;
-action = {
-type: 'UPDATE_TIME',
-formattedWaitTime: '4 minutes',
-id: id
-};
-expect(ticketListReducer({ [id] : sampleTicketData }, action)).toEqual({
-[id] : {
-names: names,
-location: location,
-issue: issue,
-timeOpen: timeOpen,
-id: id,
-formattedWaitTime: '4 minutes'
-}
-});
-});
-test('New ticket should include Moment-formatted wait times', () => {
-const { names, location, issue, timeOpen, id } = sampleTicketData;
-action = {
-type: 'ADD_TICKET',
-names: names,
-location: location,
-issue: issue,
-timeOpen: timeOpen,
-id: id,
-formattedWaitTime: new Moment().fromNow(true)
-};
-expect(ticketListReducer({}, action)).toEqual({
-[id] : {
-names: names,
-location: location,
-issue: issue,
-timeOpen: timeOpen,
-id: id,
-formattedWaitTime: 'a few seconds'
-}
-});
-});
+  test('Should successfully add new ticket data to masterTicketList', () => {
+    const { names, location, issue, timeOpen, id } = sampleTicketData;
+    action = {
+      type: 'ADD_TICKET',
+      names: names,
+      location: location,
+      issue: issue,
+      timeOpen: timeOpen,
+      id: id
+    };
+    expect(ticketListReducer({}, action)).toEqual({
+      [id] : {
+        names: names,
+        location: location,
+        issue: issue,
+        timeOpen: timeOpen,
+        id: id
+      }
+    });
+  });
+  test('Should add freshly-calculated Moment-formatted wait time to ticket entry', () => {
+    const { names, location, issue, timeOpen, id } = sampleTicketData;
+    action = {
+      type: 'UPDATE_TIME',
+      formattedWaitTime: '4 minutes',
+      id: id
+    };
+    expect(ticketListReducer({ [id] : sampleTicketData }, action)).toEqual({
+      [id] : {
+        names: names,
+        location: location,
+        issue: issue,
+        timeOpen: timeOpen,
+        id: id,
+        formattedWaitTime: '4 minutes'
+      }
+    });
+  });
+  test('New ticket should include Moment-formatted wait times', () => {
+    const { names, location, issue, timeOpen, id } = sampleTicketData;
+    action = {
+      type: 'ADD_TICKET',
+      names: names,
+      location: location,
+      issue: issue,
+      timeOpen: timeOpen,
+      id: id,
+      formattedWaitTime: new Moment().fromNow(true)
+    };
+    expect(ticketListReducer({}, action)).toEqual({
+      [id] : {
+      names: names,
+      location: location,
+      issue: issue,
+      timeOpen: timeOpen,
+      id: id,
+      formattedWaitTime: 'a few seconds'
+      }
+    });
+  });
 });" >> _tests_/reducers/ticket-list-reducer.test.js
 
 
 
 echo '
 {
-"name": "react-template",
-"version": "1.0.0",
-"description": "This will act as template",
-"main": "index.jsx",
-"scripts": {
-"test": "jest; exit 0",
-"start": "webpack-dev-server & open http://localhost:8080/",
-"lint": "eslint src/** src/**/**; exit 0",
-"fix": "eslint src/** src/**/** --fix; exit 0",
-"bash": "./B.sh"
-},
-"repository": {
-"type": "git",
-"url": "git+https://github.com/Lilkgb/react-template"
-},
-"keywords": [
-"react",
-"template"
-],
-"author": "Ryan",
-"license": "MIT",
-"bugs": {
-"url": "https://github.com/Lilkgb/react-template"
-},
-"homepage": "https://github.com/Lilkgb/react-template",
-"dependencies": {
-"aos": "^3.0.0-beta.6",
-"css-loader": "^2.1.1",
-"moment": "^2.18.1",
-"prop-types": "^15.5.10",
-"react": "^15.5.4",
-"react-dom": "^15.5.4",
-"react-redux": "^5.0.6",
-"react-router-dom": "^4.0.0",
-"redux": "^3.7.2",
-"style-loader": "^0.23.1",
-"styled-jsx": "^3.2.1",
-"uuid": "^3.2.1"
-},
-"devDependencies": {
-"babel-core": "^6.24.1",
-"babel-jest": "^20.0.3",
-"babel-loader": "^7.0.0",
-"babel-preset-es2015": "^6.24.1",
-"babel-preset-react": "^6.24.1",
-"eslint": "^4.13.1",
-"eslint-loader": "^2.1.2",
-"eslint-plugin-react": "^7.12.4",
-"file-loader": "^1.1.11",
-"html-webpack-plugin": "^2.29.0",
-"jest": "^20.0.4",
-"node-sass": "^4.11.0",
-"react-hot-loader": "^3.0.0-beta.7",
-"sass-lint": "^1.12.1",
-"sass-loader": "^7.1.0",
-"url-loader": "^0.6.2",
-"webpack": "^3.12.0",
-"webpack-cli": "^3.3.0",
-"webpack-dev-server": "^2.11.5"
-}
+  "name": "react-template",
+  "version": "1.0.0",
+  "description": "This will act as template",
+  "main": "index.jsx",
+  "scripts": {
+    "test": "jest; exit 0",
+    "start": "webpack-dev-server & open http://localhost:8080/",
+    "lint": "eslint src/** src/**/**; exit 0",
+    "fix": "eslint src/** src/**/** --fix; exit 0",
+    "bash": "./B.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lilkgb/react-template"
+  },
+  "keywords": [
+    "react",
+    "template"
+  ],
+  "author": "Ryan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lilkgb/react-template"
+  },
+  "homepage": "https://github.com/Lilkgb/react-template",
+  "dependencies": {
+    "aos": "^3.0.0-beta.6",
+    "css-loader": "^2.1.1",
+    "moment": "^2.18.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.0.0",
+    "redux": "^3.7.2",
+    "style-loader": "^0.23.1",
+    "styled-jsx": "^3.2.1",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-jest": "^20.0.3",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "eslint": "^4.13.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-react": "^7.12.4",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^2.29.0",
+    "jest": "^20.0.4",
+    "node-sass": "^4.11.0",
+    "react-hot-loader": "^3.0.0-beta.7",
+    "sass-lint": "^1.12.1",
+    "sass-loader": "^7.1.0",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.12.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^2.11.5"
+  }
 }' >> package.json
 
 
@@ -984,20 +959,20 @@ import rootReducer from './reducers/index';
 const store = createStore(rootReducer);
 
 let unsubscribe = store.subscribe(() =>
-console.log(store.getState())
+  console.log(store.getState())
 );
 
 const render = (Component) => {
-AOS.init();
-AOS.refresh();
-ReactDOM.render(
-<HashRouter>
-<Provider store={store}>
-<Component/>
-</Provider>
-</HashRouter>,
-document.getElementById('react-app-root')
-);
+  AOS.init();
+  AOS.refresh();
+  ReactDOM.render(
+    <HashRouter>
+      <Provider store={store}>
+        <Component/>
+      </Provider>
+    </HashRouter>,
+    document.getElementById('react-app-root')
+  );
 };
 
 render(App);
@@ -1041,35 +1016,34 @@ add)
 read -r -p 'Component Name: ' Name
 read -r -p 'Function or Class: ' type
 foo=\${Name}
-foo=`echo \${foo:0:1} | tr  '[a-z]' '[A-Z]'`\${foo:1}
 echo "Creating \$foo as type \$type"
 touch src/components/\$Name.jsx
 case \$type in
 Class)
-echo 'import React from "react";
+echo "import React from 'react';
 
-class ${foo} extends React.Component {
-constructor(props) {
-super(props);
+class \${foo} extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div> Hello World! </div>
+    );
+  }
 }
-render() {
-return (
-<div> Hello World! </div>
-);
-}
-}
-export default ${foo}' >> src/components/\$Name.jsx
+export default \${foo};" >> src/components/\$Name.jsx
 ;;
 
 Function)
-echo 'import React from "react";
+echo "import React from 'react';
 
 function \${Name}() {
-return (
-<div> Hello World! </div>
-);
+  return (
+    <div> Hello World! </div>
+  );
 }
-export default \${Name}' >> src/components/\$Name.jsx
+export default \${Name};" >> src/components/\$Name.jsx
 ;;
 *)
 ;;
